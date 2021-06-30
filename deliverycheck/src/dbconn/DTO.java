@@ -2,11 +2,21 @@ package dbconn;
 
 public class DTO {
 	private int wayvill;
+	private String code;
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	private String company;
 	private String memo;
 	
-	public DTO(int wayvill, String company, String memo) {
+	public DTO(int wayvill, String code, String company, String memo) {
 		this.wayvill = wayvill;
+		this.code = (code==null)?"":code;
 		this.company = (company==null)?"":company;
 		this.memo = (memo==null)?"":memo;
 	}

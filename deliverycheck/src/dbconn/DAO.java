@@ -10,15 +10,14 @@ public class DAO {
 	PreparedStatement pstm = null;
 	ResultSet rs = null;
 	
-	public List<DTO> searchWayvill(int page) {
+	public List<DTO> searchWayvill() {
 		con = DBUtil.dbConn();
 		List<DTO> dto = null;
 		try {
-			pstm = con.prepareStatement("SELECT no, company.code AS cd, name, memo FROM company NATURAL JOIN wayvill LIMIT ?,10");
-			pstm.setInt(1, (page-1)*10);
+			pstm = con.prepareStatement("SELECT no, company.code AS cd, name, memo FROM company NATURAL JOIN wayvill");
 			rs = pstm.executeQuery();
 			while(rs.next()) {
-				dto.add(new DTO(rs.getInt("no"), rs.getString("cd") + ":" + rs.getString("name"), rs.getString("memo")));
+				dto.add(new DTO(rs.getInt("no"), rs.getString("cd"), rs.getString("name"), rs.getString("memo")));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
