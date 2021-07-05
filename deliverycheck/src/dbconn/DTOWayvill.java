@@ -1,8 +1,12 @@
 package dbconn;
 
-public class DTO {
-	private int wayvill;
+public class DTOWayvill {
+	private String wayvill;
 	private String code;
+	private String company;
+	private String memo;
+	
+	
 	public String getCode() {
 		return code;
 	}
@@ -11,21 +15,19 @@ public class DTO {
 		this.code = code;
 	}
 
-	private String company;
-	private String memo;
 	
-	public DTO(int wayvill, String code, String company, String memo) {
-		this.wayvill = wayvill;
+	public DTOWayvill(String wayvill, String code, String company, String memo) {
+		this.wayvill = (wayvill==null)?"":wayvill;
 		this.code = (code==null)?"":code;
 		this.company = (company==null)?"":company;
 		this.memo = (memo==null)?"":memo;
 	}
 
-	public int getWayvill() {
+	public String getWayvill() {
 		return wayvill;
 	}
 
-	public void setWayvill(int wayvill) {
+	public void setWayvill(String wayvill) {
 		this.wayvill = wayvill;
 	}
 
