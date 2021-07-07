@@ -37,7 +37,7 @@ public class Control extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		DAO dao = new DAO();
 		
-		if (action.equals("main.do")) {
+		if (action.equals("list.do")) {
 			if (request.getParameter("wayvill")!=null) {
 				if(request.getParameter("wayvill").equals("")){
 					response.setContentType("text/html; charset=UTF-8");
@@ -46,12 +46,13 @@ public class Control extends HttpServlet {
 					out.flush();
 				}else {
 					dao.addWayvill(request.getParameter("wayvill"), request.getParameter("company"), request.getParameter("memo"));
-					RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 					dispatcher.forward(request, response);
 				}
 
 			}else {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+				request.setAttribute("wayvillList", dao.searchWayvill());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 				dispatcher.forward(request, response);
 			}
 		}else if(action.equals("add.do")) {
@@ -59,7 +60,7 @@ public class Control extends HttpServlet {
 			dispatcher.forward(request, response);
 		}else if(action.equals("delete.do")) {
 			dao.deleteWayvill(request.getParameter("wayvill"));
-			response.sendRedirect("main.do");
+			response.sendRedirect("list.do");
 		}else if(action.equals("search.do")) {
 			JSONObject result = CallAPI.callTrackingInfo(request.getParameter("wayvill"), request.getParameter("code"));
 			if (result.getString("result").equals("Y")){

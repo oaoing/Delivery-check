@@ -11,10 +11,6 @@
 <title>통합 배송 조회</title>
 </head>
 <body>
-<%	
-	DAO dao = new DAO();
-	request.setAttribute("wayvillList", dao.searchWayvill());
-%>
 
 	<table border=1>
 		<thead><tr><td>운송장번호</td><td>택배사</td><td>메모</td><td>조회</td><td>삭제</td></tr></thead>
