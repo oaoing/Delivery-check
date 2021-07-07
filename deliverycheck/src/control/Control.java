@@ -2,6 +2,9 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +13,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
+
 import dbconn.DAO;
+import model.CallAPI;
 
 @WebServlet("*.do")
 public class Control extends HttpServlet {
@@ -51,7 +59,21 @@ public class Control extends HttpServlet {
 			dispatcher.forward(request, response);
 		}else if(action.equals("delete.do")) {
 			dao.deleteWayvill(request.getParameter("wayvill"));
-			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+			response.sendRedirect("main.do");
+		}else if(action.equals("search.do")) {
+			JSONObject result = CallAPI.callTrackingInfo(request.getParameter("wayvill"), request.getParameter("code"));
+			if (result.getString("result").equals("Y")){
+				System.out.println("find");
+				request.setAttribute("check", true);
+				List<Map<String, String>> trackingDetails = new ArrayList<Map<String,String>>();
+				Gson gson = new Gson();
+				trackingDetails = (List<Map<String, String>>)gson.fromJson(result.getJSONArray("trackingDetails").toString(), trackingDetails.getClass());
+				request.setAttribute("trackingDetails", trackingDetails);
+			}else{
+				System.out.println("not find");
+				request.setAttribute("check", false);
+			}
+			RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
 			dispatcher.forward(request, response);
 		}
 	}

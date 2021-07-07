@@ -2,10 +2,11 @@
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <meta charset="UTF-8">
 <title>통합 배송 조회</title>
 </head>
@@ -14,30 +15,22 @@
 	DAO dao = new DAO();
 	request.setAttribute("wayvillList", dao.searchWayvill());
 %>
-	<table id=wayyvill border=1>
-		<thead><tr><td>메모</td><td>운송장번호</td><td>택배사</td><td>조회</td><td>삭제</td></tr></thead>
-		<tbody>
+
+	<table border=1>
+		<thead><tr><td>운송장번호</td><td>택배사</td><td>메모</td><td>조회</td><td>삭제</td></tr></thead>
+		<tbody id=wayyvill>
 		<c:forEach var="item" items="${wayvillList }">
-		<tr id="${item }"><td>${item.getMemo() }</td><td>${item.getWayvill() }</td><td>${item.getCompany() }</td>
-		<td><button id="searchB" value="${item }">V</button></td>
-		<td><button id="deleteB" value="${item }">X</button></td></tr>
+			<tr>
+				<td>${item.wayvill }</td>
+				<td>${item.company }</td>
+				<td>${item.memo }</td>
+				<td><button onclick="location.href='search.do?wayvill=${item.wayvill }&code=${item.code }'">V</button></td>
+				<td><button onclick="location.href='delete.do?wayvill=${item.wayvill }'">X</button></td>
+			</tr>
 		</c:forEach>
 		</tbody>
 	</table><br>
-	<a href="add.do"><button id="addB">운송장 추가</button></a>
-	
-<script type="text/javascript">
-$("deleteB").click(fucntion(){
-	$.ajax({
-		url: "GetServer",
-		type: "get",
-		cache: false,
-		beforeSend: function(jx, settings) {
-		        jx.data = $("#currentPage").val();
-		}
-	});
-});	
-	
-</script>
+	<button id="addB" onclick="location.href='add.do'">운송장 추가</button>
 </body>
+
 </html>

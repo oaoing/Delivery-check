@@ -32,7 +32,7 @@ public class DAO {
 	public void deleteWayvill(String wayvill) {
 		con = DBUtil.dbConn();
 		try {
-			pstm = con.prepareStatement("DELETE FROM wayvill WHERE no=?");
+			pstm = con.prepareStatement("DELETE FROM wayvill WHERE wayvill=?");
 			pstm.setString(1, wayvill);
 			pstm.executeUpdate();
 		} catch (Exception e) {
