@@ -40,17 +40,32 @@ public class Control extends HttpServlet {
 		DAO dao = new DAO();
 		
 		if (action.equals("list.do")) {
-			if (request.getParameter("wayvill")!=null) {
-				if(request.getParameter("wayvill").equals("")){
+			String wayvill = request.getParameter("wayvill");
+			List<DTOWayvill> temp = dao.searchWayvill();
+			List<String> wayvillList = new ArrayList<String>();
+			
+			for (DTOWayvill t : temp) {
+				wayvillList.add(t.getWayvill());
+			}
+			if (wayvill!=null) {
+				if(wayvill.equals("")){
 					response.setContentType("text/html; charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					out.println("<script>alert('운송장 번호를 입력해주세요.'); location.href='add.do';</script>");
 					out.flush();
+
 				}else {
-					dao.addWayvill(request.getParameter("wayvill"), request.getParameter("company"), request.getParameter("memo"));
-					request.setAttribute("wayvillList", dao.searchWayvill());
-					RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
-					dispatcher.forward(request, response);
+					if(wayvillList.contains(wayvill)) {
+						response.setContentType("text/html; charset=UTF-8");
+						PrintWriter out = response.getWriter();
+						out.println("<script>alert('이미 등록된 운송장 번호입니다.'); location.href='add.do';</script>");
+						out.flush();
+					}else {
+						dao.addWayvill(wayvill, request.getParameter("company"), request.getParameter("memo"));
+						request.setAttribute("wayvillList", dao.searchWayvill());
+						RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
+						dispatcher.forward(request, response);
+					}
 				}
 
 			}else {
@@ -60,15 +75,7 @@ public class Control extends HttpServlet {
 			}
 		}else if(action.equals("add.do")) {
 			List<DTOCompany> company = dao.searchCompany();
-			List<DTOWayvill> dto = dao.searchWayvill();
-			List<String> wayvill = new ArrayList<String>();
-			
-			for(DTOWayvill i :dto) {
-				wayvill.add(i.getWayvill());
-			}
-			
 			request.setAttribute("company", company);
-			request.setAttribute("wayvill", wayvill);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("add.jsp");
 			dispatcher.forward(request, response);
 		}else if(action.equals("delete.do")) {
