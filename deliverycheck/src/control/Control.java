@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 
 import dbconn.DAO;
+import dbconn.DTOCompany;
+import dbconn.DTOWayvill;
 import model.CallAPI;
 
 @WebServlet("*.do")
@@ -46,6 +48,7 @@ public class Control extends HttpServlet {
 					out.flush();
 				}else {
 					dao.addWayvill(request.getParameter("wayvill"), request.getParameter("company"), request.getParameter("memo"));
+					request.setAttribute("wayvillList", dao.searchWayvill());
 					RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 					dispatcher.forward(request, response);
 				}
@@ -56,6 +59,16 @@ public class Control extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		}else if(action.equals("add.do")) {
+			List<DTOCompany> company = dao.searchCompany();
+			List<DTOWayvill> dto = dao.searchWayvill();
+			List<String> wayvill = new ArrayList<String>();
+			
+			for(DTOWayvill i :dto) {
+				wayvill.add(i.getWayvill());
+			}
+			
+			request.setAttribute("company", company);
+			request.setAttribute("wayvill", wayvill);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("add.jsp");
 			dispatcher.forward(request, response);
 		}else if(action.equals("delete.do")) {
@@ -63,18 +76,27 @@ public class Control extends HttpServlet {
 			response.sendRedirect("list.do");
 		}else if(action.equals("search.do")) {
 			JSONObject result = CallAPI.callTrackingInfo(request.getParameter("wayvill"), request.getParameter("code"));
-			if (result.getString("result").equals("Y")){
-				System.out.println("find");
-				request.setAttribute("check", true);
-				List<Map<String, String>> trackingDetails = new ArrayList<Map<String,String>>();
-				Gson gson = new Gson();
-				trackingDetails = (List<Map<String, String>>)gson.fromJson(result.getJSONArray("trackingDetails").toString(), trackingDetails.getClass());
-				request.setAttribute("trackingDetails", trackingDetails);
+			System.out.println(result);
+			if (result.has("result")) {
+				if (result.getString("result").equals("Y")){
+					System.out.println("find");
+					request.setAttribute("check", true);
+					List<Map<String, String>> trackingDetails = new ArrayList<Map<String,String>>();
+					Gson gson = new Gson();
+					trackingDetails = (List<Map<String, String>>)gson.fromJson(result.getJSONArray("trackingDetails").toString(), trackingDetails.getClass());
+					request.setAttribute("trackingDetails", trackingDetails);
+				}else{
+					System.out.println("not find");
+					request.setAttribute("check", false);
+				}
 			}else{
 				System.out.println("not find");
 				request.setAttribute("check", false);
 			}
 			RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
+			dispatcher.forward(request, response);
+		}else if(action.equals("main.do")) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("index.html");
 			dispatcher.forward(request, response);
 		}
 	}
