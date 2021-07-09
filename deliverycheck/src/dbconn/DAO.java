@@ -58,7 +58,7 @@ public class DAO {
 		}
 	}
 	
-	public List<DTOCompany> searchCompany() {
+	public List<DTOCompany> searchCompanyList() {
 		con = DBUtil.dbConn();
 		List<DTOCompany> company = new ArrayList<DTOCompany>();
 		try {
@@ -66,6 +66,24 @@ public class DAO {
 			rs = pstm.executeQuery();
 			while(rs.next()) {
 				company.add(new DTOCompany(rs.getString("code"), rs.getString("name")));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+		dbClose();
+		}
+		return company;
+	}
+	
+	public DTOCompany searchCompany(String code) {
+		con = DBUtil.dbConn();
+		DTOCompany company = null;
+		try {
+			pstm = con.prepareStatement("SELECT code, name FROM company WHERE code=?");
+			pstm.setString(1, code);
+			rs = pstm.executeQuery();
+			if(rs.next()) {
+				company = new DTOCompany(rs.getString("code"), rs.getString("name"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

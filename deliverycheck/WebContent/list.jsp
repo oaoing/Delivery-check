@@ -33,11 +33,9 @@
                       <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                           <div>
-                          <span
-                          class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
-                        >
+                          <strong>
                             ${item.wayvill }
-                            </span>
+                            </strong>
                           </div>
                         </div>
                       </td>
@@ -91,12 +89,23 @@
 			</table>
 			</div>
 		</div>
-		<button class="flex p-3 mt-8 text-sm justify-center font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" 
+		<button class="flex w-full p-3 mt-8 text-sm justify-center font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" 
 			onclick="location.href='add.do'">
 			ADD
 			</button>
 		</div>
 	</main>
+	</div>
+	</div>
+	<script>
+	
+	$(document).ready(function(){
+		history.replaceState({}, null, null);
+		
+		$(".table_sel").prepend('<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>');
+		$("#table_a_mobile").addClass('text-gray-800');
+		$("#table_a").addClass('text-gray-800');
+	});
+	</script>
 </body>
-
 </html>

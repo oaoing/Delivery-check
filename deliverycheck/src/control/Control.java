@@ -74,7 +74,7 @@ public class Control extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		}else if(action.equals("add.do")) {
-			List<DTOCompany> company = dao.searchCompany();
+			List<DTOCompany> company = dao.searchCompanyList();
 			request.setAttribute("company", company);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("add.jsp");
 			dispatcher.forward(request, response);
@@ -83,27 +83,24 @@ public class Control extends HttpServlet {
 			response.sendRedirect("list.do");
 		}else if(action.equals("search.do")) {
 			JSONObject result = CallAPI.callTrackingInfo(request.getParameter("wayvill"), request.getParameter("code"));
-			System.out.println(result);
 			if (result.has("result")) {
-				if (result.getString("result").equals("Y")){
-					System.out.println("find");
-					request.setAttribute("check", true);
-					List<Map<String, String>> trackingDetails = new ArrayList<Map<String,String>>();
-					Gson gson = new Gson();
-					trackingDetails = (List<Map<String, String>>)gson.fromJson(result.getJSONArray("trackingDetails").toString(), trackingDetails.getClass());
-					request.setAttribute("trackingDetails", trackingDetails);
-				}else{
-					System.out.println("not find");
-					request.setAttribute("check", false);
-				}
+				System.out.println("find");
+				request.setAttribute("check", true);
+				List<Map<String, String>> trackingDetails = new ArrayList<Map<String,String>>();
+				Gson gson = new Gson();
+				trackingDetails = (List<Map<String, String>>)gson.fromJson(result.getJSONArray("trackingDetails").toString(), trackingDetails.getClass());
+				request.setAttribute("trackingDetails", trackingDetails);
+				request.setAttribute("company", dao.searchCompany(request.getParameter("code")).getName());
+				request.setAttribute("result", result.getString("result"));
+
 			}else{
-				System.out.println("not find");
+				System.out.println("not find: has not result");
 				request.setAttribute("check", false);
 			}
 			RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
 			dispatcher.forward(request, response);
 		}else if(action.equals("main.do")) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("index.html");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
