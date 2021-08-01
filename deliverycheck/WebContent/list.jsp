@@ -51,7 +51,7 @@
                           <button
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                             aria-label="Search"
-                            onclick="location.href='search.do?wayvill=${item.wayvill }&code=${item.code }'"
+                            onclick="location.href='search.do?wayvill=${item.wayvill }&code=${item.code }&comName=${item.company }'"
                           >
                             <svg 
                             xmlns="http://www.w3.org/2000/svg" 

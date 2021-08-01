@@ -39,10 +39,8 @@
                 <select
                   class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                   name="company"
+                  id="company"
                 >
-                   <c:forEach var="c" items="${company }">
-					<option value="${c.getCode()}">${c.getName() }</option>
-				</c:forEach>
                 </select>
               </label>
               </div>
@@ -75,6 +73,16 @@
     	$(".table_sel").prepend('<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>');
     	$("#table_a_mobile").addClass('text-gray-800');
 		$("#table_a").addClass('text-gray-800');
+		var url = "http://info.sweettracker.co.kr/api/v1/companylist?t_key=" + "${key}";
+		$.getJSON(url,
+				function(data){
+					list = data['Company']
+					for( var i = 0, len = list.length || 0; i < len; i++){
+						$("#company").append('<option value=' + list[i]['Code'] + '>' + list[i]['Name'] + '</option>');
+					}
+				}).fail(function(xhr, status, err){
+					console.log(err + '... failed');
+				});
     })
 </script>
   </body>

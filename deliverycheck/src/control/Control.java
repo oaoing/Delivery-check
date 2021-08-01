@@ -31,7 +31,8 @@ public class Control extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    private final static String KEY = "v3pMtS3ZZMLZNMGvdb0bwQ";
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf("/");
@@ -74,29 +75,14 @@ public class Control extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		}else if(action.equals("add.do")) {
-			List<DTOCompany> company = dao.searchCompanyList();
-			request.setAttribute("company", company);
+			request.setAttribute("key", KEY);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("add.jsp");
 			dispatcher.forward(request, response);
 		}else if(action.equals("delete.do")) {
 			dao.deleteWayvill(request.getParameter("wayvill"));
 			response.sendRedirect("list.do");
 		}else if(action.equals("search.do")) {
-			JSONObject result = CallAPI.callTrackingInfo(request.getParameter("wayvill"), request.getParameter("code"));
-			if (result.has("result")) {
-				System.out.println("find");
-				request.setAttribute("check", true);
-				List<Map<String, String>> trackingDetails = new ArrayList<Map<String,String>>();
-				Gson gson = new Gson();
-				trackingDetails = (List<Map<String, String>>)gson.fromJson(result.getJSONArray("trackingDetails").toString(), trackingDetails.getClass());
-				request.setAttribute("trackingDetails", trackingDetails);
-				request.setAttribute("company", dao.searchCompany(request.getParameter("code")).getName());
-				request.setAttribute("result", result.getString("result"));
-
-			}else{
-				System.out.println("not find: has not result");
-				request.setAttribute("check", false);
-			}
+			request.setAttribute("key", KEY);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
 			dispatcher.forward(request, response);
 		}else if(action.equals("main.do")) {
