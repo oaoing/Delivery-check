@@ -25,7 +25,7 @@ public class Control extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-    private final static String KEY = "v3pMtS3ZZMLZNMGvdb0bwQ";
+    private final static String KEY = "#";
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
