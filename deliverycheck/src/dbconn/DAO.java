@@ -16,10 +16,10 @@ public class DAO {
 		con = DBUtil.dbConn();
 		List<DTOWayvill> dto = new ArrayList<DTOWayvill>();
 		try {
-			pstm = con.prepareStatement("SELECT wayvill, company.code AS cd, name, memo FROM company NATURAL JOIN wayvill");
+			pstm = con.prepareStatement("SELECT wayvill, code, company, memo FROM wayvill");
 			rs = pstm.executeQuery();
 			while(rs.next()) {
-				dto.add(new DTOWayvill(rs.getString("wayvill"), rs.getString("cd"), rs.getString("name"), rs.getString("memo")));
+				dto.add(new DTOWayvill(rs.getString("wayvill"), rs.getString("code"), rs.getString("company"), rs.getString("memo")));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,13 +42,14 @@ public class DAO {
 		}
 	}
 	
-	public void addWayvill(String wayvill, String company, String memo) {
+	public void addWayvill(String wayvill, String code, String company, String memo) {
 		con = DBUtil.dbConn();
 		try {
-			pstm = con.prepareStatement("INSERT INTO wayvill VALUES(NULL, ?, ?, ?)");
+			pstm = con.prepareStatement("INSERT INTO wayvill VALUES(NULL, ?, ?, ?, ?)");
 			pstm.setString(1, wayvill);
-			pstm.setString(2, company);
-			pstm.setString(3, memo);
+			pstm.setString(2, code);
+			pstm.setString(3, company);
+			pstm.setString(4, memo);
 			pstm.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

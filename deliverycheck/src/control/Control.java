@@ -25,7 +25,7 @@ public class Control extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-    private final static String KEY = "#";
+    private final static String KEY = "v3pMtS3ZZMLZNMGvdb0bwQ";
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
@@ -56,7 +56,9 @@ public class Control extends HttpServlet {
 						out.println("<script>alert('이미 등록된 운송장 번호입니다.'); location.href='add.do';</script>");
 						out.flush();
 					}else {
-						dao.addWayvill(wayvill, request.getParameter("company"), request.getParameter("memo"));
+						String code = request.getParameter("company").split(":")[0];
+						String company = request.getParameter("company").split(":")[1];
+						dao.addWayvill(wayvill, code, company, request.getParameter("memo"));
 						request.setAttribute("wayvillList", dao.searchWayvill());
 						RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 						dispatcher.forward(request, response);
