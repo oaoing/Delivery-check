@@ -100,7 +100,7 @@
 	<script>
 	
 	$(document).ready(function(){
-		history.replaceState({}, null, null);
+		history.replaceState({}, null, location.pathname);
 		
 		$(".table_sel").prepend('<span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>');
 		$("#table_a_mobile").addClass('text-gray-800');
