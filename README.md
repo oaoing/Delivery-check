@@ -24,13 +24,13 @@
 
 ## 구성 화면
 
-![main](./img/main.png)
+![main](./img/main.PNG)
 
-![tables](./img/tables.png)
+![tables](./img/tables.PNG)
 
-![add](./img/add.png)
+![add](./img/add.PNG)
 
-![search](./img/search.png)
+![search](./img/search.PNG)
 
 ##### 사용 템플릿
 https://github.com/estevanmaito/windmill-dashboard
