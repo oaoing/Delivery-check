@@ -24,12 +24,16 @@
 
 ## 구성 화면
 
+###### index.jsp
 ![main](./img/main.PNG)
 
+###### list.jsp
 ![tables](./img/tables.PNG)
 
+###### add.jsp
 ![add](./img/add.PNG)
 
+###### search.jsp
 ![search](./img/search.PNG)
 
 ##### 사용 템플릿
