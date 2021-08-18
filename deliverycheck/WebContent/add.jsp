@@ -78,7 +78,7 @@
 				function(data){
 					list = data['Company']
 					for( var i = 0, len = list.length || 0; i < len; i++){
-						$("#company").append('<option value=' + list[i]['Code'] + '>' + list[i]['Name'] + '</option>');
+						$("#company").append('<option value=' + list[i]['Code'] + ':' + list[i]['Name'] + '>' + list[i]['Name'] + '</option>');
 					}
 				}).fail(function(xhr, status, err){
 					console.log(err + '... failed');
