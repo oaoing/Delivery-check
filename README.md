@@ -50,7 +50,7 @@
 ![search](./img/search.PNG)
 
 ##### 사용 템플릿
-https://github.com/estevanmaito/windmill-dashboard
+> https://github.com/estevanmaito/windmill-dashboard
 
 
 
