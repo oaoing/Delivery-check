@@ -22,6 +22,19 @@
 
 
 
+## DB schema
+
+##### delivery.wayvill
+|이름|데이터 유형(길이)|NULL 허용|기본값|설명|
+|:-:|:-:|:-:|:-:|:-:|
+|id|INT(12)|NOT NULL|AUTO_INCREASEMENT|PK|
+|wayvill|VARCHAR(15)|NOT NULL|-|운송장 번호|
+|code|VARCHAR(5)|NOT NULL|-|택배사 코드|
+|company|VARCHAR(15)|NOT NULL|-|택배사 이름|
+|memo|VARCHAR(100)|NULL|-|메모|
+
+
+
 ## 구성 화면
 
 ##### index.jsp
